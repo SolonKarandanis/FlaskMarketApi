@@ -33,4 +33,3 @@ class UserRepository(IRepository):
 
     def delete(self, item_id: int):
         pass
-    
