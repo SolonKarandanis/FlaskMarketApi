@@ -1,5 +1,5 @@
-from market.data_access.models.user import User
-from market.data_access.repositories.IRepository import IRepository
+from src.data_access.models.user import User
+from src.data_access.repositories.IRepository import IRepository
 
 
 class UserRepository(IRepository):

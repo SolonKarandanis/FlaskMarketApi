@@ -6,7 +6,7 @@ from flask import Flask, request
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
-from market.config import Config
+from src.config import Config
 
 app = Flask(__name__)
 logging.basicConfig(format='[%(asctime)s] %(levelname)s %(name)s: %(message)s')

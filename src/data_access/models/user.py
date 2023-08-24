@@ -1,4 +1,4 @@
-from market import db, bcrypt
+from src import db, bcrypt
 
 
 class User(db.Model):
