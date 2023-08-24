@@ -6,6 +6,7 @@ from flask import Flask, request
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
+from src.auth import auth
 from src.config import Config
 
 
@@ -22,6 +23,7 @@ def create_app(test_config=None):
 
     db = SQLAlchemy(app)
     bcrypt = Bcrypt(app)
+    app.register_blueprint(auth)
 
     if not app.debug:
         if not os.path.exists('logs'):
