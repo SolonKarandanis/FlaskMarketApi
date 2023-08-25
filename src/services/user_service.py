@@ -17,6 +17,9 @@ class UserService:
     def find_by_email(self, email: str) -> User:
         return self.repo.find_by_email(email)
 
+    def find_by_id(self, user_id: int) -> User:
+        return self.repo.find_by_id(user_id)
+
     def create(self, username: str, email_address: str, password: str) -> User:
         return self.repo.create(username, email_address, password)
 

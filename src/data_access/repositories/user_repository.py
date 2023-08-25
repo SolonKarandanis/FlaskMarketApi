@@ -25,8 +25,8 @@ class UserRepository(IRepository):
     def find_all_pageable(self, page, rows_per_page: int = 5):
         pass
 
-    def find_by_id(self, item_id: int):
-        pass
+    def find_by_id(self, user_id: int) -> User:
+        return User.query.get(user_id)
 
     def update(self, item):
         pass
