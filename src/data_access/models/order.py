@@ -2,8 +2,8 @@ from datetime import datetime
 from typing import List
 
 from src import db
-from src.data_access.models import CartItem
-from src.data_access.models.OrderItem import OrderItem
+from src.data_access.models import cart_item
+from src.data_access.models.order_item import OrderItem
 from src.data_access.models.user import User
 
 

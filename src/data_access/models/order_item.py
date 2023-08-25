@@ -1,5 +1,5 @@
 from src import db
-from src.data_access.models import Product, Order
+from src.data_access.models import product, order
 
 
 class OrderItem(db.Model):

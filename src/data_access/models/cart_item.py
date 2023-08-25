@@ -1,5 +1,5 @@
 from src import db
-from src.data_access.models import Product, Cart
+from src.data_access.models import product, cart
 
 
 class CartItem(db.Model):

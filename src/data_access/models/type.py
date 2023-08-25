@@ -1,5 +1,5 @@
 from src import db
-from src.data_access.models.ProductTypeBase import ProductTypeBase
+from src.data_access.models.product_type_base import ProductTypeBase
 
 
 class Type(ProductTypeBase):

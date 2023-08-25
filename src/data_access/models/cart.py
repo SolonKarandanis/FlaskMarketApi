@@ -1,5 +1,5 @@
 from src import db
-from src.data_access.models.CartItem import CartItem
+from src.data_access.models.cart_item import CartItem
 from src.data_access.models.user import User
 
 

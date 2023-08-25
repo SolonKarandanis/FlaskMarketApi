@@ -1,8 +1,8 @@
 from src import db
-from src.data_access.models.ProductTypeBase import ProductTypeBase, product_type
+from src.data_access.models.product_type_base import ProductTypeBase, product_type
 from typing import Set
 
-from src.data_access.models.Type import Type
+from src.data_access.models.type import Type
 
 
 class Product(ProductTypeBase):
