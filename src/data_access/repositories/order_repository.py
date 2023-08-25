@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.data_access.models.order import Order
+from src.data_access.models.models import Order
 from src.data_access.repositories.IRepository import IRepository
 
 

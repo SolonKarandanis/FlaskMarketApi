@@ -1,5 +1,5 @@
-from src.data_access import CartRepository
-from src.data_access.models.cart import Cart
+from src.data_access.models.models import Cart
+from src.data_access.repositories import CartRepository
 
 
 class CartService:

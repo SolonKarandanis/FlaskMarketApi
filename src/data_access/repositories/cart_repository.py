@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from src.data_access.models.cart import Cart
-from src.data_access.models.cart_item import CartItem
+from src.data_access.models.models import Cart, CartItem
 from src.data_access.repositories.IRepository import IRepository
 
 

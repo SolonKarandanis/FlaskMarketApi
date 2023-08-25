@@ -4,11 +4,14 @@ from logging.handlers import RotatingFileHandler
 
 from flask import Flask, request
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 from flask_mail import Mail
-from flask_sqlalchemy import SQLAlchemy
 
-from src.auth import auth
 from src.config import Config
+from src.data_access import db
+
+bcrypt = Bcrypt()
+mail = Mail()
 
 
 def create_app(test_config=None):
@@ -21,6 +24,14 @@ def create_app(test_config=None):
         created_app.config.from_object(Config)
     else:
         created_app.config.from_mapping(test_config)
+
+    db.init_app(created_app)
+    bcrypt.init_app(created_app)
+    mail.init_app(created_app)
+    JWTManager(created_app)
+
+    from src.auth import auth
+    created_app.register_blueprint(auth)
 
     if not created_app.debug:
         if not os.path.exists('logs'):
@@ -36,10 +47,3 @@ def create_app(test_config=None):
         created_app.logger.info('FlaskMarket startup')
 
     return created_app
-
-
-app = create_app()
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-mail = Mail(app)
-app.register_blueprint(auth)

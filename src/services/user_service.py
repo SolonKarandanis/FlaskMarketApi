@@ -1,10 +1,10 @@
 from time import time
 
 import jwt
+from flask import current_app
 
-from src import app
-from src.data_access import UserRepository
-from src.data_access.models.user import User
+from src.data_access.models.models import User
+from src.data_access.repositories import UserRepository
 
 
 class UserService:
@@ -23,11 +23,11 @@ class UserService:
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
-            app.config['SECRET_KEY'], algorithm='HS256')
+            current_app.config['SECRET_KEY'], algorithm='HS256')
 
     def verify_reset_password_token(self, token: str) -> User:
         try:
-            userId = jwt.decode(token, app.config['SECRET_KEY'],
+            userId = jwt.decode(token, current_app.config['SECRET_KEY'],
                                 algorithms=['HS256'])['reset_password']
         except:
             return

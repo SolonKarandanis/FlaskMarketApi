@@ -1,4 +1,4 @@
-from src.data_access.models.user import User
+from src.data_access.models.models import User
 from src.data_access.repositories.IRepository import IRepository
 
 
