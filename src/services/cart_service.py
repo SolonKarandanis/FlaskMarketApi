@@ -14,3 +14,4 @@ class CartService:
 
     def create(self, user_id: int) -> Cart:
         return self.repo.create(user_id)
+

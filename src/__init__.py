@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager
 
 from src.config import Config
 from src.data_access import db, bcrypt
-from src.product import products
+from src.product_routes import products
 from src.services import mail
 
 
@@ -27,7 +27,7 @@ def create_app(test_config=None):
     mail.init_app(created_app)
     JWTManager(created_app)
 
-    from src.auth import auth
+    from src.auth_routes import auth
     created_app.register_blueprint(auth)
     created_app.register_blueprint(products)
 
