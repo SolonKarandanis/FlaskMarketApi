@@ -134,9 +134,10 @@ class Cart(db.Model):
 
     def update_item_quantity(self, cart_item_id: int, quantity: int) -> None:
         existing_cart_item = next(filter(lambda ci: ci.id == cart_item_id, self.cart_items), None)
-        existing_cart_item.quantity = quantity
-        existing_cart_item.total_price = quantity * existing_cart_item.unit_price
-        self.update_cart_total_price()
+        if existing_cart_item is not None:
+            existing_cart_item.quantity = quantity
+            existing_cart_item.total_price = quantity * existing_cart_item.unit_price
+            self.update_cart_total_price()
 
     def remove_from_cart(self, cart_item) -> None:
         self.cart_items.remove(cart_item)

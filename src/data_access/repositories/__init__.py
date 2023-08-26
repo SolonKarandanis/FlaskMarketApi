@@ -1,4 +1,4 @@
-from src import db
+from src.data_access import db
 from src.data_access.repositories.cart_repository import CartRepository
 from src.data_access.repositories.order_repository import OrderRepository
 from src.data_access.repositories.product_repository import ProductRepository

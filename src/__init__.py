@@ -1,10 +1,13 @@
+import datetime
 import logging
 import os
+
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, request
 from flask_jwt_extended import JWTManager
 
+from src.cart_routes import carts
 from src.config import Config
 from src.data_access import db, bcrypt
 from src.product_routes import products
@@ -25,11 +28,14 @@ def create_app(test_config=None):
     db.init_app(created_app)
     bcrypt.init_app(created_app)
     mail.init_app(created_app)
+    created_app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
+    created_app.config['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
     JWTManager(created_app)
 
     from src.auth_routes import auth
     created_app.register_blueprint(auth)
     created_app.register_blueprint(products)
+    created_app.register_blueprint(carts)
 
     if not created_app.debug:
         if not os.path.exists('logs'):

@@ -23,6 +23,7 @@ class CartRepository(IRepository):
                     date_modified=datetime.now(),
                     cart_items=cart_items)
         self.db.session.add(cart)
+        self.db.session.commit()
         return cart
 
     def find_all(self):
@@ -34,8 +35,10 @@ class CartRepository(IRepository):
     def find_by_id(self, item_id: int):
         pass
 
-    def update(self, item):
-        pass
+    def update(self, cart: Cart) -> Cart:
+        self.db.session.add(cart)
+        self.db.session.commit()
+        return cart
 
     def delete(self, item_id: int):
         pass

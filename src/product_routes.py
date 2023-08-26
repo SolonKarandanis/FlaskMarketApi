@@ -14,11 +14,6 @@ def fetch_products():
     limit = request.args.get('limit', 10, type=int)
     result = product_service.find_all_pageable(page, limit)
 
-    data = []
-
-    for p in result.items:
-        data.append(p.to_dict())
-
     meta = {
         "page": result.page,
         'pages': result.pages,
@@ -29,7 +24,7 @@ def fetch_products():
         'has_prev': result.has_prev,
     }
 
-    return jsonify({'data': data, "meta": meta}), HTTP_200_OK
+    return jsonify({'data': [p.to_dict() for p in result.items], "meta": meta}), HTTP_200_OK
 
 
 @products.get("/<int:product_id>")
