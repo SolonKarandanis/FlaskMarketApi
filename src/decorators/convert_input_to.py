@@ -6,8 +6,9 @@ from flask import request
 def convert_input_to(class_):
     def wrap(f):
         def decorator(*args):
+            print(f'class: {type(class_)}')
             if type(class_) == list:
-                print("Variable is a list.")
+                print(f'class: {type(class_)}')
             else:
                 obj = class_(**request.get_json())
                 return f(obj)
