@@ -4,15 +4,17 @@ from flask import current_app
 
 from threading import Thread
 
-from src import  mail
+
 from src.data_access.models.models import User
 
 
 class EmailService:
+    def __init__(self, mail):
+        self.mail = mail
 
     def send_async_email(self, msg):
         with current_app.app_context():
-            mail.send(msg)
+            self.mail.send(msg)
 
     def send_email(self, subject, sender, recipients, text_body, html_body):
         msg = Message(subject, sender=sender, recipients=recipients)

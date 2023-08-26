@@ -3,15 +3,12 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, request
-from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
-from flask_mail import Mail
 
 from src.config import Config
-from src.data_access import db
-
-bcrypt = Bcrypt()
-mail = Mail()
+from src.data_access import db, bcrypt
+from src.product import products
+from src.services import mail
 
 
 def create_app(test_config=None):
@@ -32,6 +29,7 @@ def create_app(test_config=None):
 
     from src.auth import auth
     created_app.register_blueprint(auth)
+    created_app.register_blueprint(products)
 
     if not created_app.debug:
         if not os.path.exists('logs'):

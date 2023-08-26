@@ -1,5 +1,5 @@
-from src.data_access import db
-from src import bcrypt
+from src.data_access import db, bcrypt
+
 from typing import Set, List
 from datetime import datetime
 
