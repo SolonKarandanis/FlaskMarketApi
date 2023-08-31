@@ -6,11 +6,14 @@ from flask import request
 def convert_input_to(class_):
     def wrap(f):
         def decorator(*args):
-            print(f'class: {type(class_)}')
-            if type(class_) == list:
-                print(f'class: {type(class_)}')
+            json_request = request.get_json()
+            if type(json_request) == list:
+                objects = [class_(**o) for o in json_request]
+                return f(objects)
             else:
-                obj = class_(**request.get_json())
+                obj = class_(**json_request)
                 return f(obj)
+
         return decorator
+
     return wrap

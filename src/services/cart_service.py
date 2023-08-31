@@ -1,5 +1,8 @@
+from typing import List
+
 from src.data_access.models.models import Cart
 from src.data_access.repositories import CartRepository
+from src.dto.add_to_cart import AddToCart
 
 
 class CartService:
@@ -37,7 +40,10 @@ class CartService:
         self.update_cart(cart)
         return cart
 
-    def add_to_cart(self, user_id: int) -> Cart:
+    def add_to_cart(self, user_id: int, data: List[AddToCart]) -> Cart:
         cart = self.fetch_or_create_cart(user_id)
+        if cart is None:
+            cart = self.create(user_id)
+
 
         return cart
