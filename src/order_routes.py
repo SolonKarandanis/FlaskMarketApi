@@ -16,7 +16,7 @@ def place_order():
     order_comments = request.args.get('comments', '', type=str)
     user_id = get_jwt_identity()
     cart = cart_service.find_with_items_and_products_by_user_id(user_id)
-    order = order_service.add_order_items(user_id,cart,order_comments)
+    order = order_service.add_order_items(user_id, cart, order_comments)
     cart.clear_cart()
     cart_service.update_cart(cart)
     return order.to_dict(), HTTP_200_OK
