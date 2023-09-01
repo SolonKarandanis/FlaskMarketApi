@@ -52,7 +52,6 @@ class CartService:
         products_to_be_added = self.product_repo.find_by_ids(product_ids)
         logger.info(f'products_to_be_added: {products_to_be_added}')
         data_dict = {d.product_id: d.quantity for d in data}
-        logger.info(f'data_dict: {data_dict}')
         for product in products_to_be_added:
             product_id = product.id
             quantity = data_dict[product_id]

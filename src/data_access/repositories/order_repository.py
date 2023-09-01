@@ -19,6 +19,7 @@ class OrderRepository(IRepository):
                       total_price=total_price,
                       comments=order_comments)
         self.db.session.add(order)
+        self.db.session.commit()
         return order
 
     def find_all(self):
