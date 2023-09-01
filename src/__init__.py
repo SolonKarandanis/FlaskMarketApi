@@ -8,10 +8,9 @@ from flask import Flask, request
 from flask_babel import Babel
 from flask_jwt_extended import JWTManager
 
-from src.cart_routes import carts
+
 from src.config import Config
 from src.data_access import db, bcrypt
-from src.product_routes import products
 from src.services import mail
 
 
@@ -33,9 +32,16 @@ def create_app(test_config=None):
     created_app.config['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
     JWTManager(created_app)
 
+    from src.error_routes import errors
+    created_app.register_blueprint(errors)
+
     from src.auth_routes import auth
     created_app.register_blueprint(auth)
+
+    from src.product_routes import products
     created_app.register_blueprint(products)
+
+    from src.cart_routes import carts
     created_app.register_blueprint(carts)
 
     def get_locale():
