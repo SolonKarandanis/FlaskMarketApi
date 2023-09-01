@@ -44,6 +44,9 @@ def create_app(test_config=None):
     from src.cart_routes import carts
     created_app.register_blueprint(carts)
 
+    from src.order_routes import orders
+    created_app.register_blueprint(orders)
+
     def get_locale():
         return request.accept_languages.best_match(created_app.config['LANGUAGES'])
 

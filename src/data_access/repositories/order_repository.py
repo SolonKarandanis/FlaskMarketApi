@@ -31,8 +31,10 @@ class OrderRepository(IRepository):
     def find_by_id(self, item_id: int):
         pass
 
-    def update(self, item):
-        pass
+    def update(self, order: Order) -> Order:
+        self.db.session.add(order)
+        self.db.session.commit()
+        return order
 
     def delete(self, item_id: int):
         pass
