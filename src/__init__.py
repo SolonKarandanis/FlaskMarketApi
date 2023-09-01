@@ -5,6 +5,7 @@ import os
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, request
+from flask_babel import Babel
 from flask_jwt_extended import JWTManager
 
 from src.cart_routes import carts
@@ -36,6 +37,11 @@ def create_app(test_config=None):
     created_app.register_blueprint(auth)
     created_app.register_blueprint(products)
     created_app.register_blueprint(carts)
+
+    def get_locale():
+        return request.accept_languages.best_match(created_app.config['LANGUAGES'])
+
+    babel = Babel(created_app, locale_selector=get_locale)
 
     if not created_app.debug:
         if not os.path.exists('logs'):

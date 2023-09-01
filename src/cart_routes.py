@@ -26,8 +26,8 @@ def get_user_cart():
 @convert_input_to(AddToCart)
 def add_to_cart(add_to_cart_request: List[AddToCart]):
     user_id = get_jwt_identity()
-    logger.info(f'data: {add_to_cart_request}')
-    return {},HTTP_200_OK
+    cart = cart_service.add_to_cart(user_id, add_to_cart_request)
+    return cart.to_dict(), HTTP_200_OK
 
 
 @carts.delete("/<int:item_id>/delete")

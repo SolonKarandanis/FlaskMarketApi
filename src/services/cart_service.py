@@ -1,13 +1,17 @@
+import logging
 from typing import List
 
 from src.data_access.models.models import Cart
-from src.data_access.repositories import CartRepository
+from src.data_access.repositories import CartRepository, ProductRepository
 from src.dto.add_to_cart import AddToCart
 
 
+logger = logging.getLogger(__name__)
+
 class CartService:
-    def __init__(self, repo: CartRepository):
+    def __init__(self, repo: CartRepository, product_repo: ProductRepository):
         self.repo = repo
+        self.product_repo = product_repo
 
     def find_with_items_by_user_id(self, user_id: int) -> Cart:
         return self.repo.find_with_items_by_user_id(user_id)
@@ -44,6 +48,14 @@ class CartService:
         cart = self.fetch_or_create_cart(user_id)
         if cart is None:
             cart = self.create(user_id)
-
-
+        product_ids = [d.product_id for d in data]
+        products_to_be_added = self.product_repo.find_by_ids(product_ids)
+        logger.info(f'products_to_be_added: {products_to_be_added}')
+        data_dict = {d.product_id: d.quantity for d in data}
+        logger.info(f'data_dict: {data_dict}')
+        for product in products_to_be_added:
+            product_id = product.id
+            quantity = data_dict[product_id]
+            cart.add_item_to_cart(product_id, quantity, product.price)
+        cart = self.update_cart(cart)
         return cart

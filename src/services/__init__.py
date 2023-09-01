@@ -10,6 +10,7 @@ from src.services.user_service import UserService
 mail = Mail()
 
 email_service = EmailService(mail)
-cart_service = CartService(cart_repo)
-user_service = UserService(user_repo)
 product_service = ProductService(product_repo)
+cart_service = CartService(cart_repo, product_repo)
+user_service = UserService(user_repo)
+
