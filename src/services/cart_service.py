@@ -5,8 +5,8 @@ from src.data_access.models.models import Cart
 from src.data_access.repositories import CartRepository, ProductRepository
 from src.dto.add_to_cart import AddToCart
 
-
 logger = logging.getLogger(__name__)
+
 
 class CartService:
     def __init__(self, repo: CartRepository, product_repo: ProductRepository):
