@@ -18,10 +18,9 @@ class Config(object):
     LANGUAGES = ['en', 'gr']
     BABEL_DEFAULT_LOCALE = 'en'
 
-    ELASTICSEARCH_SCHEME = os.environ.get('ELASTICSEARCH_SCHEME') or 'https'
+    ELASTICSEARCH_SCHEME = os.environ.get('ELASTICSEARCH_SCHEME') or 'https://'
     ELASTICSEARCH_HOST = os.environ.get('ELASTICSEARCH_HOST') or 'api.elastic'
     ELASTICSEARCH_PORT = os.environ.get('ELASTICSEARCH_PORT') or 443
     ELASTICSEARCH_USERNAME = os.environ.get('ELASTICSEARCH_USERNAME') or 'elastic'
     ELASTICSEARCH_PASSWORD = os.environ.get('ELASTICSEARCH_PASSWORD') or '19633bNYvlFbDY77Hqx534xs'
 
-    

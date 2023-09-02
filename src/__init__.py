@@ -4,10 +4,11 @@ import os
 
 from logging.handlers import RotatingFileHandler
 
+
+from elasticsearch import Elasticsearch
 from flask import Flask, request
 from flask_babel import Babel
 from flask_jwt_extended import JWTManager
-
 
 from src.config import Config
 from src.data_access import db, bcrypt
@@ -32,6 +33,14 @@ def create_app(test_config=None):
     created_app.config['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
     JWTManager(created_app)
 
+    elastic_url = created_app.config['ELASTICSEARCH_SCHEME'] + \
+                  created_app.config['ELASTICSEARCH_HOST'] + ':' + str(created_app.config['ELASTICSEARCH_PORT'])
+
+    elastic_username = created_app.config['ELASTICSEARCH_USERNAME']
+    elastic_password = created_app.config['ELASTICSEARCH_PASSWORD']
+
+    created_app.elasticsearch = Elasticsearch(elastic_url, basic_auth=(elastic_username, elastic_password))
+
     from src.error_routes import errors
     created_app.register_blueprint(errors)
 
@@ -46,6 +55,7 @@ def create_app(test_config=None):
 
     from src.order_routes import orders
     created_app.register_blueprint(orders)
+
 
     def get_locale():
         return request.accept_languages.best_match(created_app.config['LANGUAGES'])
