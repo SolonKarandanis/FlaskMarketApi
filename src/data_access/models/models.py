@@ -67,8 +67,8 @@ class SearchableMixin(object):
         session._changes = None
 
     @classmethod
-    def reindex(cls):
-        for obj in cls.query:
+    def reindex(cls, objects_to_be_indexed):
+        for obj in objects_to_be_indexed:
             fts_repo.add_to_index(cls.__tablename__, obj)
 
 
