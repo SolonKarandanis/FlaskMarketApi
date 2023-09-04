@@ -1,4 +1,4 @@
-FROM python:slim
+FROM python3:10:slim
 
 RUN useradd flaskmarket
 
