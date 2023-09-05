@@ -20,7 +20,7 @@ class ProductRepository(IRepository):
             .paginate(page=page, per_page=rows_per_page, error_out=False)
 
     def find_all(self) -> List[Product]:
-        return Product.query.all()
+        return self.db.session.query(Product).all()
 
     def create(self, item):
         pass

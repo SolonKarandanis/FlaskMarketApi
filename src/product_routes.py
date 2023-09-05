@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 
 from src.constants.http_status_codes import HTTP_200_OK
-from src.services import product_service
+from src.services import product_service, product_search_service
 
 products = Blueprint("products", __name__, url_prefix="/market/v1/products")
 
@@ -34,3 +34,10 @@ def get_product(product_id):
     result = product.to_dict()
 
     return result, HTTP_200_OK
+
+
+@products.get("/index")
+@jwt_required()
+def index():
+    product_search_service.add_to_product_index()
+    return {}, HTTP_200_OK

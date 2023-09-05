@@ -144,7 +144,7 @@ class Type(ProductTypeBase):
 
 class Product(SearchableMixin, ProductTypeBase):
     __tablename__ = 'product'
-    __searchable__ = ['body']
+    __searchable__ = ['sku','name', 'supplier', 'description','price']
 
     id = db.Column(db.Integer, primary_key=True)
     sku = db.Column(db.String(length=255), nullable=False)

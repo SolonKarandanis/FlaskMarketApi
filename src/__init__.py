@@ -43,7 +43,9 @@ def create_app(test_config=None):
     elastic_username = created_app.config['ELASTICSEARCH_USERNAME']
     elastic_password = created_app.config['ELASTICSEARCH_PASSWORD']
 
-    created_app.elasticsearch = Elasticsearch(elastic_url, basic_auth=(elastic_username, elastic_password))
+
+    created_app.elasticsearch = Elasticsearch(
+        elastic_url, basic_auth=(elastic_username, elastic_password), verify_certs=False)
 
     from src.error_routes import errors
     created_app.register_blueprint(errors)

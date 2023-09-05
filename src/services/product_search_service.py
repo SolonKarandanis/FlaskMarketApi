@@ -9,7 +9,7 @@ class ProductSearchService:
     def __init__(self, repo: ProductRepository):
         self.repo = repo
 
-    @shared_task
+    # @shared_task
     def add_to_product_index(self) -> None:
         objects_to_be_indexed = self.repo.find_all()
         Product.reindex(objects_to_be_indexed)

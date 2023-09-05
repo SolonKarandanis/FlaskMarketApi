@@ -1,13 +1,19 @@
+import logging
+
 from flask import current_app
 
+logger = logging.getLogger(__name__)
 
 class FtsRepository:
 
     def add_to_index(self, index, model):
+        logger.info(f'index: {index}')
+        logger.info(f'model: {model}')
         if not current_app.elasticsearch:
             return
         payload = {}
         for field in model.__searchable__:
+            logger.info(f'field: {field}')
             payload[field] = getattr(model, field)
         current_app.elasticsearch.index(index=index, id=model.id, body=payload)
 
