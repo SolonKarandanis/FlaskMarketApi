@@ -4,15 +4,18 @@ import os
 
 from logging.handlers import RotatingFileHandler
 
-
 from elasticsearch import Elasticsearch
 from flask import Flask, request
 from flask_babel import Babel
+from flask_celeryext import FlaskCeleryExt
 from flask_jwt_extended import JWTManager
 
+from src.celery import make_celery
 from src.config import Config
 from src.data_access import db, bcrypt
 from src.services import mail
+
+ext_celery = FlaskCeleryExt(create_celery_app=make_celery)
 
 
 def create_app(test_config=None):
@@ -32,6 +35,7 @@ def create_app(test_config=None):
     created_app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
     created_app.config['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
     JWTManager(created_app)
+    ext_celery.init_app(created_app)
 
     elastic_url = created_app.config['ELASTICSEARCH_SCHEME'] + \
                   created_app.config['ELASTICSEARCH_HOST'] + ':' + str(created_app.config['ELASTICSEARCH_PORT'])
@@ -55,7 +59,6 @@ def create_app(test_config=None):
 
     from src.order_routes import orders
     created_app.register_blueprint(orders)
-
 
     def get_locale():
         return request.accept_languages.best_match(created_app.config['LANGUAGES'])

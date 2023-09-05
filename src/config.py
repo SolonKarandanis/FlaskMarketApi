@@ -24,3 +24,12 @@ class Config(object):
     ELASTICSEARCH_USERNAME = os.environ.get('ELASTICSEARCH_USERNAME') or 'elastic'
     ELASTICSEARCH_PASSWORD = os.environ.get('ELASTICSEARCH_PASSWORD') or '19633bNYvlFbDY77Hqx534xs'
 
+    REDIS_SCHEME = os.environ.get('REDIS_SCHEME') or 'http://'
+    REDIS_HOST = os.environ.get('REDIS_HOST') or '192.168.1.5'
+    REDIS_PORT = os.environ.get('REDIS_PORT') or 6379
+    REDIS_DATABASE = os.environ.get('REDIS_DATABASE') or 0
+    REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD') or 'password'
+
+    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://192.168.1.5:6379/0")
+    CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://192.168.1.5:6379/0")
+

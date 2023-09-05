@@ -1,5 +1,7 @@
 from typing import List
 
+from celery import shared_task
+
 from src.data_access.models.models import Product
 from src.data_access.repositories import ProductRepository
 
@@ -16,3 +18,10 @@ class ProductService:
 
     def find_by_ids(self, product_ids: List[int]) -> List[Product]:
         return self.repo.find_by_ids(product_ids)
+
+    def find_all(self) -> List[Product]:
+        return self.repo.find_all()
+
+    @shared_task
+    def schedule_index_products(self):
+        products = self.find_all()

@@ -19,8 +19,8 @@ class ProductRepository(IRepository):
         return self.db.session.query(Product).order_by(Product.id)\
             .paginate(page=page, per_page=rows_per_page, error_out=False)
 
-    def find_all(self):
-        pass
+    def find_all(self) -> List[Product]:
+        return Product.query.all()
 
     def create(self, item):
         pass
