@@ -21,7 +21,3 @@ class ProductService:
 
     def find_all(self) -> List[Product]:
         return self.repo.find_all()
-
-    @shared_task
-    def schedule_index_products(self):
-        products = self.find_all()
