@@ -27,6 +27,12 @@ def fetch_products():
     return jsonify({'data': [p.to_dict() for p in result.items], "meta": meta}), HTTP_200_OK
 
 
+@products.get("/search")
+@jwt_required()
+def search_products():
+    pass
+
+
 @products.get("/<int:product_id>")
 @jwt_required()
 def get_product(product_id):
