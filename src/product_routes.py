@@ -1,11 +1,16 @@
+import logging
+
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 
 from src.constants.http_status_codes import HTTP_200_OK
+from src.decorators.convert_input_to import convert_input_to
+from src.dto.product_search_request import ProductSearchRequest
 from src.services import product_service, product_search_service
 
 products = Blueprint("products", __name__, url_prefix="/market/v1/products")
 
+logger = logging.getLogger(__name__)
 
 @products.get("/")
 @jwt_required()
@@ -27,10 +32,13 @@ def fetch_products():
     return jsonify({'data': [p.to_dict() for p in result.items], "meta": meta}), HTTP_200_OK
 
 
-@products.get("/search")
+@products.post("/search")
 @jwt_required()
-def search_products():
-    pass
+@convert_input_to(ProductSearchRequest)
+def search_products(product_search_request: ProductSearchRequest):
+    logger.info(f'search request {product_search_request}')
+    result = product_search_service.query_product_index(product_search_request)
+    return result, HTTP_200_OK
 
 
 @products.get("/<int:product_id>")

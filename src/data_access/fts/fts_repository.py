@@ -4,6 +4,7 @@ from flask import current_app
 
 logger = logging.getLogger(__name__)
 
+
 class FtsRepository:
 
     def add_to_index(self, index, model):
@@ -29,5 +30,9 @@ class FtsRepository:
             index=index,
             body={'query': {'multi_match': {'query': query, 'fields': ['*']}},
                   'from': (page - 1) * per_page, 'size': per_page})
+        total = search['hits']['total']['value']
+        logger.info(f'total  {total}')
+        hits=search['hits']['hits']
+        logger.info(f'search  {hits}')
         ids = [int(hit['_id']) for hit in search['hits']['hits']]
         return ids, search['hits']['total']['value']

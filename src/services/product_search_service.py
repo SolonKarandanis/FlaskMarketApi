@@ -2,6 +2,7 @@ from celery import shared_task
 
 from src.data_access.models.models import Product
 from src.data_access.repositories import ProductRepository
+from src.dto.product_search_request import ProductSearchRequest
 
 
 class ProductSearchService:
@@ -17,5 +18,7 @@ class ProductSearchService:
     def remove_from_product_index(self, index, model):
         pass
 
-    def query_product_index(self, query, page, per_page):
-        return Product.search(query, page, per_page)
+    def query_product_index(self, product_search_request: ProductSearchRequest):
+        query = product_search_request.query
+        paging = product_search_request.paging
+        return Product.search(query, paging['page'], paging['limit'])
