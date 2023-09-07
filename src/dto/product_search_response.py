@@ -10,3 +10,9 @@ class ProductSearchResponse:
 
     def __repr__(self):
         return f"<ProductSearchResult  total={self.total},content={self.content}>"
+
+    def to_dict(self):
+        return {
+            'content': [product.to_dict() for product in self.content],
+            'total': self.total
+        }

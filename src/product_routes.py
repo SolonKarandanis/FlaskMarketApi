@@ -38,7 +38,8 @@ def fetch_products():
 def search_products(product_search_request: ProductSearchRequest):
     logger.info(f'search request {product_search_request}')
     result = product_search_service.query_product_index(product_search_request)
-    return result, HTTP_200_OK
+    logger.info(f'search result {result}')
+    return result.to_dict(), HTTP_200_OK
 
 
 @products.get("/<int:product_id>")

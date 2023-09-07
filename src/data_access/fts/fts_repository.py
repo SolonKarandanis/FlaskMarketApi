@@ -2,6 +2,9 @@ import logging
 
 from flask import current_app
 
+from src.dto.product_search_response import ProductSearchResponse
+from src.dto.product_search_result import ProductSearchResult
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,8 +34,6 @@ class FtsRepository:
             body={'query': {'multi_match': {'query': query, 'fields': ['*']}},
                   'from': (page - 1) * per_page, 'size': per_page})
         total = search['hits']['total']['value']
-        logger.info(f'total  {total}')
-        hits=search['hits']['hits']
-        logger.info(f'search  {hits}')
-        ids = [int(hit['_id']) for hit in search['hits']['hits']]
-        return ids, search['hits']['total']['value']
+        content = [ProductSearchResult(**hit['_source']) for hit in search['hits']['hits']]
+        response = ProductSearchResponse(content, total)
+        return response

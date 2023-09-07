@@ -9,4 +9,13 @@ class ProductSearchResult:
 
     def __repr__(self):
         return f"<ProductSearchResult  id={self.id},sku={self.sku},name={self.name}>"
-    
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sku': self.sku,
+            'name': self.name,
+            'supplier': self.supplier,
+            'description': self.description,
+            'price': self.price,
+        }
