@@ -32,8 +32,8 @@ def create_app(test_config=None):
     db.init_app(created_app)
     bcrypt.init_app(created_app)
     mail.init_app(created_app)
-    created_app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
-    created_app.config['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
+    created_app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=90)
+    created_app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(minutes=90)
     JWTManager(created_app)
     ext_celery.init_app(created_app)
 
