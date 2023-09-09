@@ -26,9 +26,9 @@ class FtsRepository:
             return
         current_app.elasticsearch.delete(index=index, id=model.id)
 
-    def query_index(self, index, query, page, per_page):
+    def query_index(self, index, query, page, per_page) -> ProductSearchResponse:
         if not current_app.elasticsearch:
-            return [], 0
+            return ProductSearchResponse([], 0)
         search = current_app.elasticsearch.search(
             index=index,
             body={'query': {'multi_match': {'query': query, 'fields': ['*']}},
