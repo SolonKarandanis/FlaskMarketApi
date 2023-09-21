@@ -12,6 +12,7 @@ products = Blueprint("products", __name__, url_prefix="/market/v1/products")
 
 logger = logging.getLogger(__name__)
 
+
 @products.get("/")
 @jwt_required()
 def fetch_products():
