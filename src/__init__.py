@@ -9,6 +9,7 @@ from flask import Flask, request
 from flask_babel import Babel
 from flask_celeryext import FlaskCeleryExt
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 
 from src.celery import make_celery
 from src.config import Config
@@ -16,6 +17,8 @@ from src.data_access import db, bcrypt
 from src.services import mail
 
 ext_celery = FlaskCeleryExt(create_celery_app=make_celery)
+
+db_migration = Migrate()
 
 
 def create_app(test_config=None):
@@ -30,6 +33,7 @@ def create_app(test_config=None):
         created_app.config.from_mapping(test_config)
 
     db.init_app(created_app)
+    db_migration.init_app(created_app,db)
     bcrypt.init_app(created_app)
     mail.init_app(created_app)
     created_app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=90)
