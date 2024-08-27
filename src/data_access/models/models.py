@@ -36,8 +36,7 @@ class PaginatedAPIMixin(object):
 class SearchableMixin(object):
     @classmethod
     def search(cls, expression, page, per_page):
-        return  fts_repo.query_index(cls.__tablename__, expression, page, per_page)
-
+        return fts_repo.query_index(cls.__tablename__, expression, page, per_page)
 
     @classmethod
     def before_commit(cls, session):
@@ -136,9 +135,20 @@ class Type(ProductTypeBase):
         }
 
 
+class Category(db.Model):
+    _tablename__ = 'category'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(length=100), unique=True, nullable=False)
+    slug = db.Column(db.String(length=200), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f"<Category {self.name}>"
+
+
 class Product(SearchableMixin, ProductTypeBase):
     __tablename__ = 'product'
-    __searchable__ = ['id','sku','name', 'supplier', 'description','price']
+    __searchable__ = ['id', 'sku', 'name', 'supplier', 'description', 'price']
 
     id = db.Column(db.Integer, primary_key=True)
     sku = db.Column(db.String(length=255), nullable=False)
@@ -329,6 +339,3 @@ class OrderItem(db.Model):
             'quantity': self.quantity,
             'total_price': self.total_price,
         }
-
-
-
