@@ -6,7 +6,7 @@ class Config(object):
     FLASK_ENV = os.environ.get('FLASK_ENV')
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'ec9439cfc6c796ae2029594d'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') \
-                              or "postgresql://sales_db:sales_db@192.168.1.5:5432/sales_db"
+                              or "postgresql://sales_db:sales_db@192.168.1.6:5432/sales_db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'smtp.googlemail.com'
