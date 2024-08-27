@@ -10,6 +10,7 @@ from flask_babel import Babel
 from flask_celeryext import FlaskCeleryExt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from flask_marshmallow import Marshmallow
 
 from src.celery import make_celery
 from src.config import Config
@@ -19,6 +20,8 @@ from src.services import mail
 ext_celery = FlaskCeleryExt(create_celery_app=make_celery)
 
 db_migration = Migrate()
+
+ma = Marshmallow()
 
 
 def create_app(test_config=None):
@@ -32,14 +35,10 @@ def create_app(test_config=None):
     else:
         created_app.config.from_mapping(test_config)
 
-    db.init_app(created_app)
-    db_migration.init_app(created_app,db)
-    bcrypt.init_app(created_app)
-    mail.init_app(created_app)
+    initialize_extensions(created_app)
+    
     created_app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=90)
     created_app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(minutes=90)
-    JWTManager(created_app)
-    ext_celery.init_app(created_app)
 
     elastic_url = created_app.config['ELASTICSEARCH_SCHEME'] + \
                   created_app.config['ELASTICSEARCH_HOST'] + ':' + str(created_app.config['ELASTICSEARCH_PORT'])
@@ -47,24 +46,10 @@ def create_app(test_config=None):
     elastic_username = created_app.config['ELASTICSEARCH_USERNAME']
     elastic_password = created_app.config['ELASTICSEARCH_PASSWORD']
 
-
     created_app.elasticsearch = Elasticsearch(
         elastic_url, basic_auth=(elastic_username, elastic_password), verify_certs=False)
 
-    from src.error_routes import errors
-    created_app.register_blueprint(errors)
-
-    from src.auth_routes import auth
-    created_app.register_blueprint(auth)
-
-    from src.product_routes import products
-    created_app.register_blueprint(products)
-
-    from src.cart_routes import carts
-    created_app.register_blueprint(carts)
-
-    from src.order_routes import orders
-    created_app.register_blueprint(orders)
+    register_blueprint(created_app)
 
     def get_locale():
         return request.accept_languages.best_match(created_app.config['LANGUAGES'])
@@ -85,3 +70,30 @@ def create_app(test_config=None):
         created_app.logger.info('FlaskMarket startup')
 
     return created_app
+
+
+def initialize_extensions(app):
+    db.init_app(app)
+    db_migration.init_app(app, db)
+    bcrypt.init_app(app)
+    mail.init_app(app)
+    JWTManager(app)
+    ext_celery.init_app(app)
+    ma.init_app(app)
+
+
+def register_blueprint(app):
+    from src.error_routes import errors
+    app.register_blueprint(errors)
+
+    from src.auth_routes import auth
+    app.register_blueprint(auth)
+
+    from src.product_routes import products
+    app.register_blueprint(products)
+
+    from src.cart_routes import carts
+    app.register_blueprint(carts)
+
+    from src.order_routes import orders
+    app.register_blueprint(orders)
